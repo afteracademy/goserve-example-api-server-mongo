@@ -250,7 +250,6 @@ func generateDto(featureDir, featureName string) error {
 	tStr := `package dto
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/go-playground/validator/v10"
