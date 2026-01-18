@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: goserve_example_api_server_mongo
     container_name: goserve_example_api_server_mongo
     restart: unless-stopped
     env_file: .env
@@ -15,7 +14,6 @@ services:
 
   mongo:
     image: mongo:8.0.9
-    container_name: mongo
     restart: unless-stopped
     env_file: .env
     environment:
@@ -31,7 +29,6 @@ services:
 
   redis:
     image: redis:8.4.0
-    container_name: redis
     restart: unless-stopped
     env_file: .env
     ports:
