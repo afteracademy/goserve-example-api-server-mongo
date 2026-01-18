@@ -55,7 +55,6 @@ Sample API
  
 ## Project Directories
 1. **api**: APIs code 
-2. **arch**: It provide framework and base implementation for creating the architecture
 3. **cmd**: main function to start the program
 4. **common**: code to be used in all the apis
 5. **config**: load environment variables
@@ -213,7 +212,7 @@ func (*Sample) EnsureIndexes(db mongo.Database) {
 ```
 
 #### Notes: The Model implements the interface 
-`arch/mongo/database`
+`github.com/afteracademy/goserve/v2/mongo/database`
 
 ```golang
 type Document[T any] interface {
@@ -270,7 +269,7 @@ func (d *InfoSample) ValidateErrors(errs validator.ValidationErrors) ([]string, 
 ```
 
 #### Notes: The DTO implements the interface 
-`arch/network/interfaces.go`
+`github.com/afteracademy/goserve/v2/network/interfaces.go`
 
 ```golang
 type Dto[T any] interface {
@@ -326,7 +325,7 @@ func (s *service) FindSample(id primitive.ObjectID) (*model.Sample, error) {
 ```
 
 #### Notes: The Service embeds the interface 
-`arch/network/interfaces.go`
+`github.com/afteracademy/goserve/v2/network/interfaces.go`
 
 ```golang
 type BaseService interface {
@@ -398,7 +397,7 @@ func (c *controller) getSampleHandler(ctx *gin.Context) {
 ```
 
 #### Notes: The Controller implements the interface 
-`arch/network/interfaces.go`
+`github.com/afteracademy/goserve/v2/network/interfaces.go`
 
 ```golang
 type Controller interface {

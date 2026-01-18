@@ -25,7 +25,7 @@ func TestAuthController_SignupBadRequest(t *testing.T) {
 
 	c := NewController(mockAuthProvider, mockAuthzProvider, authService)
 
-	rr := network.MockTestController(t, "POST", "/auth/signup/basic", "{}", c)
+	rr := network.MockTestController(t, "POST", "/auth/signup/basic", `{}`, c)
 	assert.Equal(t, http.StatusBadRequest, rr.Code)
 	assert.Contains(t, rr.Body.String(), `"message":"email is required, password is required, name is required"`)
 }

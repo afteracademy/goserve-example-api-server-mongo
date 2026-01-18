@@ -3,7 +3,7 @@ module github.com/afteracademy/goserve-example-api-server-mongo
 go 1.25.5
 
 require (
-	github.com/afteracademy/goserve/v2 v2.0.0
+	github.com/afteracademy/goserve/v2 v2.0.1
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-playground/validator/v10 v10.22.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
