@@ -23,7 +23,7 @@ jobs:
     - name: Run docker images
       run: docker compose up -d
     - name: Run tests
-      run: docker exec -t goserver go test -v ./...
+      run: docker exec -t goserve_example_api_server_mongo go test -v ./...
     - name: Clean up
       if: success() || failure()
       run: docker compose down --rmi all -v --remove-orphans
