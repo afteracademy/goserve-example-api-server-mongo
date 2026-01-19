@@ -2,7 +2,6 @@ package dto
 
 import (
 	"github.com/afteracademy/goserve-example-api-server-mongo/api/blog/model"
-	"github.com/afteracademy/goserve-example-api-server-mongo/utils"
 	"github.com/afteracademy/goserve/v2/utility"
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -19,7 +18,7 @@ type InfoBlog struct {
 }
 
 func NewInfoBlog(blog *model.Blog) (*InfoBlog, error) {
-	return utils.MapTo[InfoBlog](blog)
+	return utility.MapTo[InfoBlog](blog)
 }
 
 func EmptyInfoBlog() *InfoBlog {

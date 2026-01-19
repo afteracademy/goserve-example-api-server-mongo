@@ -2,8 +2,8 @@ package contact
 
 import (
 	"github.com/afteracademy/goserve-example-api-server-mongo/api/contact/dto"
-	"github.com/afteracademy/goserve-example-api-server-mongo/utils"
 	"github.com/afteracademy/goserve/v2/network"
+	"github.com/afteracademy/goserve/v2/utility"
 	"github.com/gin-gonic/gin"
 )
 
@@ -40,7 +40,7 @@ func (c *controller) createMessageHandler(ctx *gin.Context) {
 		return
 	}
 
-	data, err := utils.MapTo[dto.InfoMessage](msg)
+	data, err := utility.MapTo[dto.InfoMessage](msg)
 	if err != nil {
 		c.Send(ctx).InternalServerError("something went wrong", err)
 		return
