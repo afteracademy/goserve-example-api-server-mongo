@@ -9,10 +9,11 @@
 
 ## Create A Blog Service 
 
-This project is a fully production-ready solution designed to implement best practices for building performant and secure backend REST API services. It provides a robust architectural framework to ensure consistency and maintain high code quality. The architecture emphasizes feature separation, facilitating easier unit and integration testing.
+This project is a fully production-ready solution designed to implement best practices for building performant and secure backend REST API services. It provides a robust architectural framework to ensure consistency and maintain high code quality. The architecture emphasizes feature separation, facilitating easier unit and integration testing. It is built using the `goserve` framework, which offers essential components for developing REST API services in Go.
 
 ## Framework
 - Go
+- goserve v2
 - Gin
 - jwt
 - mongodriver
@@ -22,6 +23,8 @@ This project is a fully production-ready solution designed to implement best pra
 - Crypto
 
 **Highlights**
+- REST API design
+- goserve framework usage
 - API key support
 - Token based Authentication
 - Role based Authorization
@@ -33,6 +36,9 @@ This project is a fully production-ready solution designed to implement best pra
 The goal is to make each API independent from one another and only share services among them. This will make code reusable and reduce conflicts while working in a team. 
 
 The APIs will have separate directory based on the endpoint. Example `blog` and `blogs` will have seperate directory whereas `blog`, `blog/author`, and `blog/editor` will share common resources and will live inside same directory.
+
+## Know More on goserve framework
+- [GitHub - afteracademy/goserve](https://github.com/afteracademy/goserve) 
 
 ### Startup Flow
 cmd/main → startup/server → module, mongo, redis, router → api/[feature]/middlewares → api/[feature]/controller -> api/[feature]/service, authentication, authorization → handlers → sender
@@ -230,42 +236,29 @@ type Document[T any] interface {
 package dto
 
 import (
-  "fmt"
-  "time"
+	"time"
 
-  "github.com/go-playground/validator/v10"
-  "go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/go-playground/validator/v10"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/afteracademy/goserve/v2/utility"
 )
 
 type InfoSample struct {
-  ID        primitive.ObjectID `json:"_id" binding:"required"`
-  Field     string             `json:"field" binding:"required"`
-  CreatedAt time.Time          `json:"createdAt" binding:"required"`
+	ID        primitive.ObjectID `json:"_id" binding:"required"`
+	Field     string             `json:"field" binding:"required"`
+	CreatedAt time.Time          `json:"createdAt" binding:"required"`
 }
 
 func EmptyInfoSample() *InfoSample {
-  return &InfoSample{}
+	return &InfoSample{}
 }
 
 func (d *InfoSample) GetValue() *InfoSample {
-  return d
+	return d
 }
 
 func (d *InfoSample) ValidateErrors(errs validator.ValidationErrors) ([]string, error) {
-  var msgs []string
-  for _, err := range errs {
-    switch err.Tag() {
-    case "required":
-      msgs = append(msgs, fmt.Sprintf("%s is required", err.Field()))
-    case "min":
-      msgs = append(msgs, fmt.Sprintf("%s must be min %s", err.Field(), err.Param()))
-    case "max":
-      msgs = append(msgs, fmt.Sprintf("%s must be max %s", err.Field(), err.Param()))
-    default:
-      msgs = append(msgs, fmt.Sprintf("%s is invalid", err.Field()))
-    }
-  }
-  return msgs, nil
+	return utility.FormatValidationErrors(errs), nil
 }
 ```
 
