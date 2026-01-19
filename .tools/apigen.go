@@ -111,7 +111,7 @@ import (
 	"github.com/afteracademy/goserve-example-api-server-mongo/common"
 	coredto "github.com/afteracademy/goserve/v2/dto"
 	"github.com/afteracademy/goserve/v2/network"
-	"github.com/afteracademy/goserve-example-api-server-mongo/utils"
+	"github.com/afteracademy/goserve/v2/utility"
 )
 
 type controller struct {
@@ -149,7 +149,7 @@ func (c *controller) get%sHandler(ctx *gin.Context) {
 		return
 	}
 
-	data, err := utils.MapTo[dto.Info%s](%s)
+	data, err := utility.MapTo[dto.Info%s](%s)
 	if err != nil {
 		c.Send(ctx).InternalServerError("something went wrong", err)
 		return
