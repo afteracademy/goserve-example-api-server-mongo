@@ -8,7 +8,7 @@ import (
 )
 
 type controller struct {
-	network.BaseController
+	network.Controller
 	common.ContextPayload
 	service Service
 }
@@ -19,7 +19,7 @@ func NewController(
 	service Service,
 ) network.Controller {
 	return &controller{
-		BaseController: network.NewBaseController("/profile", authProvider, authorizeProvider),
+		Controller:     network.NewController("/profile", authProvider, authorizeProvider),
 		ContextPayload: common.NewContextPayload(),
 		service:        service,
 	}
@@ -32,19 +32,19 @@ func (c *controller) MountRoutes(group *gin.RouterGroup) {
 }
 
 func (c *controller) getPublicProfileHandler(ctx *gin.Context) {
-	mongoId, err := network.ReqParams(ctx, coredto.EmptyMongoId())
+	mongoId, err := network.ReqParams[coredto.MongoId](ctx)
 	if err != nil {
-		c.Send(ctx).BadRequestError(err.Error(), err)
+		network.SendBadRequestError(ctx, err.Error(), err)
 		return
 	}
 
 	data, err := c.service.GetUserPublicProfile(mongoId.ID)
 	if err != nil {
-		c.Send(ctx).MixedError(err)
+		network.SendMixedError(ctx, err)
 		return
 	}
 
-	c.Send(ctx).SuccessDataResponse("success", data)
+	network.SendSuccessDataResponse(ctx, "success", data)
 }
 
 func (c *controller) getPrivateProfileHandler(ctx *gin.Context) {
@@ -52,9 +52,9 @@ func (c *controller) getPrivateProfileHandler(ctx *gin.Context) {
 
 	data, err := c.service.GetUserPrivateProfile(user)
 	if err != nil {
-		c.Send(ctx).MixedError(err)
+		network.SendMixedError(ctx, err)
 		return
 	}
 
-	c.Send(ctx).SuccessDataResponse("success", data)
+	network.SendSuccessDataResponse(ctx, "success", data)
 }

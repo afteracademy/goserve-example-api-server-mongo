@@ -8,7 +8,7 @@ import (
 )
 
 type controller struct {
-	network.BaseController
+	network.Controller
 	service Service
 }
 
@@ -18,8 +18,8 @@ func NewController(
 	service Service,
 ) network.Controller {
 	return &controller{
-		BaseController: network.NewBaseController("/contact", authProvider, authorizeProvider),
-		service:        service,
+		Controller: network.NewController("/contact", authProvider, authorizeProvider),
+		service:    service,
 	}
 }
 
@@ -28,23 +28,23 @@ func (c *controller) MountRoutes(group *gin.RouterGroup) {
 }
 
 func (c *controller) createMessageHandler(ctx *gin.Context) {
-	body, err := network.ReqBody(ctx, &dto.CreateMessage{})
+	body, err := network.ReqBody[dto.CreateMessage](ctx)
 	if err != nil {
-		c.Send(ctx).BadRequestError(err.Error(), err)
+		network.SendBadRequestError(ctx, err.Error(), err)
 		return
 	}
 
 	msg, err := c.service.SaveMessage(body)
 	if err != nil {
-		c.Send(ctx).InternalServerError("something went wrong", err)
+		network.SendInternalServerError(ctx, "something went wrong", err)
 		return
 	}
 
 	data, err := utility.MapTo[dto.InfoMessage](msg)
 	if err != nil {
-		c.Send(ctx).InternalServerError("something went wrong", err)
+		network.SendInternalServerError(ctx, "something went wrong", err)
 		return
 	}
 
-	c.Send(ctx).SuccessDataResponse("message received successfully!", data)
+	network.SendSuccessDataResponse(ctx, "message received successfully!", data)
 }

@@ -6,7 +6,6 @@ import (
 	"github.com/afteracademy/goserve-example-api-server-mongo/api/blog/model"
 	userModel "github.com/afteracademy/goserve-example-api-server-mongo/api/user/model"
 	"github.com/afteracademy/goserve/v2/utility"
-	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -45,12 +44,4 @@ func NewPrivateBlog(blog *model.Blog, author *userModel.User) (*PrivateBlog, err
 	}
 
 	return b, err
-}
-
-func (d *PrivateBlog) GetValue() *PrivateBlog {
-	return d
-}
-
-func (b *PrivateBlog) ValidateErrors(errs validator.ValidationErrors) ([]string, error) {
-	return utility.FormatValidationErrors(errs), nil
 }

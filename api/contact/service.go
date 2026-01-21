@@ -5,7 +5,6 @@ import (
 	"github.com/afteracademy/goserve-example-api-server-mongo/api/contact/model"
 	coredto "github.com/afteracademy/goserve/v2/dto"
 	"github.com/afteracademy/goserve/v2/mongo"
-	"github.com/afteracademy/goserve/v2/network"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -17,13 +16,11 @@ type Service interface {
 }
 
 type service struct {
-	network.BaseService
 	messageQueryBuilder mongo.QueryBuilder[model.Message]
 }
 
 func NewService(db mongo.Database) Service {
 	return &service{
-		BaseService:         network.NewBaseService(),
 		messageQueryBuilder: mongo.NewQueryBuilder[model.Message](db, model.CollectionName),
 	}
 }

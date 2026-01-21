@@ -2,8 +2,6 @@ package dto
 
 import (
 	"github.com/afteracademy/goserve-example-api-server-mongo/api/user/model"
-	"github.com/afteracademy/goserve/v2/utility"
-	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -28,12 +26,4 @@ func NewInfoPrivateUser(user *model.User) *InfoPrivateUser {
 		ProfilePicURL: user.ProfilePicURL,
 		Roles:         roles,
 	}
-}
-
-func (d *InfoPrivateUser) GetValue() *InfoPrivateUser {
-	return d
-}
-
-func (d *InfoPrivateUser) ValidateErrors(errs validator.ValidationErrors) ([]string, error) {
-	return utility.FormatValidationErrors(errs), nil
 }
