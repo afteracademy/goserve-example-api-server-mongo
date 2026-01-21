@@ -238,9 +238,7 @@ package dto
 import (
 	"time"
 
-	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"github.com/afteracademy/goserve/v2/utility"
 )
 
 type InfoSample struct {
@@ -248,29 +246,7 @@ type InfoSample struct {
 	Field     string             `json:"field" binding:"required"`
 	CreatedAt time.Time          `json:"createdAt" binding:"required"`
 }
-
-func EmptyInfoSample() *InfoSample {
-	return &InfoSample{}
-}
-
-func (d *InfoSample) GetValue() *InfoSample {
-	return d
-}
-
-func (d *InfoSample) ValidateErrors(errs validator.ValidationErrors) ([]string, error) {
-	return utility.FormatValidationErrors(errs), nil
-}
 ```
-
-#### Notes: The DTO implements the interface 
-`github.com/afteracademy/goserve/v2/network/interfaces.go`
-
-```golang
-type Dto[T any] interface {
-  GetValue() *T
-  ValidateErrors(errs validator.ValidationErrors) ([]string, error)
-}
-``` 
 
 ### Service
 `api/sample/service.go`
@@ -282,7 +258,6 @@ import (
   "github.com/afteracademy/goserve-example-api-server-mongo/api/sample/dto"
   "github.com/afteracademy/goserve-example-api-server-mongo/api/sample/model"
   "github.com/afteracademy/goserve/v2/mongo"
-  "github.com/afteracademy/goserve/v2/network"
   "github.com/afteracademy/goserve/v2/redis"
   "go.mongodb.org/mongo-driver/bson"
   "go.mongodb.org/mongo-driver/bson/primitive"
@@ -293,14 +268,12 @@ type Service interface {
 }
 
 type service struct {
-  network.BaseService
   sampleQueryBuilder mongo.QueryBuilder[model.Sample]
   infoSampleCache    redis.Cache[dto.InfoSample]
 }
 
 func NewService(db mongo.Database, store redis.Store) Service {
   return &service{
-    BaseService:  network.NewBaseService(),
     sampleQueryBuilder: mongo.NewQueryBuilder[model.Sample](db, model.CollectionName),
     infoSampleCache: redis.NewCache[dto.InfoSample](store),
   }
@@ -317,15 +290,6 @@ func (s *service) FindSample(id primitive.ObjectID) (*model.Sample, error) {
   return msg, nil
 }
 ```
-
-#### Notes: The Service embeds the interface 
-`github.com/afteracademy/goserve/v2/network/interfaces.go`
-
-```golang
-type BaseService interface {
-  Context() context.Context
-}
-``` 
 
 - Database Query: `mongo.QueryBuilder[model.Sample]` provide the methods to make common mongo queries for the model `model.Sample`
 - Redis Cache: `redis.Cache[dto.InfoSample]` provide the methods to make common redis queries for the DTO `dto.InfoSample`
@@ -346,7 +310,7 @@ import (
 )
 
 type controller struct {
-  network.BaseController
+  network.Controller
   common.ContextPayload
   service Service
 }
@@ -357,7 +321,7 @@ func NewController(
   service Service,
 ) network.Controller {
   return &controller{
-    BaseController: network.NewBaseController("/sample", authMFunc, authorizeMFunc),
+    Controller: network.NewController("/sample", authMFunc, authorizeMFunc),
     ContextPayload: common.NewContextPayload(),
     service:  service,
   }
@@ -368,25 +332,25 @@ func (c *controller) MountRoutes(group *gin.RouterGroup) {
 }
 
 func (c *controller) getSampleHandler(ctx *gin.Context) {
-  mongoId, err := network.ReqParams(ctx, coredto.EmptyMongoId())
+  mongoId, err := network.ReqParams[coredto.MongoId](ctx)
   if err != nil {
-    c.Send(ctx).BadRequestError(err.Error(), err)
+    network.SendBadRequestError(ctx, err.Error(), err)
     return
   }
 
   sample, err := c.service.FindSample(mongoId.ID)
   if err != nil {
-    c.Send(ctx).NotFoundError("sample not found", err)
+    network.SendNotFoundError(ctx, "sample not found", err)
     return
   }
 
   data, err := utils.MapTo[dto.InfoSample](sample)
   if err != nil {
-    c.Send(ctx).InternalServerError("something went wrong", err)
+    network.SendInternalServerError(ctx, "something went wrong", err)
     return
   }
 
-  c.Send(ctx).SuccessDataResponse("success", data)
+  network.SendSuccessDataResponse(ctx, "success", data)
 }
 ```
 
@@ -404,22 +368,6 @@ type BaseController interface {
   Path() string
   Authentication() gin.HandlerFunc
   Authorization(role string) gin.HandlerFunc
-}
-
-type ResponseSender interface {
-  Debug() bool
-  Send(ctx *gin.Context) SendResponse
-}
-
-type SendResponse interface {
-  SuccessMsgResponse(message string)
-  SuccessDataResponse(message string, data any)
-  BadRequestError(message string, err error)
-  ForbiddenError(message string, err error)
-  UnauthorizedError(message string, err error)
-  NotFoundError(message string, err error)
-  InternalServerError(message string, err error)
-  MixedError(err error)
 }
 ``` 
 
