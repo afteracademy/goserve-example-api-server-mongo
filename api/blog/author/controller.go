@@ -55,7 +55,7 @@ func (c *controller) postBlogHandler(ctx *gin.Context) {
 		return
 	}
 
-	network.SendSuccessDataResponse(ctx, "blog created successfully", &b)
+	network.SendSuccessDataResponse(ctx, "blog created successfully", b)
 }
 
 func (c *controller) updateBlogHandler(ctx *gin.Context) {
@@ -73,7 +73,7 @@ func (c *controller) updateBlogHandler(ctx *gin.Context) {
 		return
 	}
 
-	network.SendSuccessDataResponse(ctx, "blog updated successfully", &b)
+	network.SendSuccessDataResponse(ctx, "blog updated successfully", b)
 }
 
 func (c *controller) getBlogHandler(ctx *gin.Context) {
