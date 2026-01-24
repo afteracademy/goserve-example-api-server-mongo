@@ -55,10 +55,6 @@ func NewUser(email string, pwdHash string, name string, profilePicUrl *string, r
 	return &u, nil
 }
 
-func (user *User) GetValue() *User {
-	return user
-}
-
 func (user *User) Validate() error {
 	validate := validator.New()
 	return validate.Struct(user)

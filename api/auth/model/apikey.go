@@ -44,10 +44,6 @@ func NewApiKey(key string, version int, permissions []Permission, comments []str
 	}
 }
 
-func (apikey *ApiKey) GetValue() *ApiKey {
-	return apikey
-}
-
 func (apikey *ApiKey) Validate() error {
 	validate := validator.New()
 	return validate.Struct(apikey)

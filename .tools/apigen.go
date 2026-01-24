@@ -206,10 +206,6 @@ func New%s(field string) (*%s, error) {
 	return &doc, nil
 }
 
-func (doc *%s) GetValue() *%s {
-	return doc
-}
-
 func (doc *%s) Validate() error {
 	validate := validator.New()
 	return validate.Struct(doc)
@@ -229,7 +225,7 @@ func (*%s) EnsureIndexes(db mongo.Database) {
 }
 
 `
-	template := fmt.Sprintf(tStr, featureLower, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps)
+	template := fmt.Sprintf(tStr, featureLower, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps, featureCaps)
 
 	return os.WriteFile(modelPath, []byte(template), os.ModePerm)
 }

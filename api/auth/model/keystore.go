@@ -39,10 +39,6 @@ func NewKeystore(clientID primitive.ObjectID, primaryKey string, secondaryKey st
 	return &k, nil
 }
 
-func (keystore *Keystore) GetValue() *Keystore {
-	return keystore
-}
-
 func (keystore *Keystore) Validate() error {
 	validate := validator.New()
 	return validate.Struct(keystore)

@@ -45,10 +45,6 @@ func NewRole(code RoleCode) (*Role, error) {
 	return &r, nil
 }
 
-func (role *Role) GetValue() *Role {
-	return role
-}
-
 func (role *Role) Validate() error {
 	validate := validator.New()
 
