@@ -109,9 +109,14 @@ docker compose up --build
 ```
 -  You will be able to access the api from http://localhost:8080
 
-**5. Run Tests**
+**5. Health Check**
 ```bash
-docker exec -t goserve_example_api_server_mongo go test -v ./...
+docker inspect --format='{{.State.Health.Status}}' goserver-mongo
+```
+
+**6. Run Tests**
+```bash
+docker exec -t goserver-mongo go test -v ./...
 ```
 
 If having any issue
@@ -124,7 +129,7 @@ If having any issue
 go mod tidy
 ```
 
-Keep the docker container for `mongo` and `redis` running and **stop** the `goserve_example_api_server_mongo` docker container
+Keep the docker container for `mongo` and `redis` running and **stop** the `goserver-mongo` docker container
 
 Change the following hosts in the **.env** and **.test.env**
 - DB_HOST=localhost

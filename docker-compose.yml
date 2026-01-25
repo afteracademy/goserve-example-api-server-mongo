@@ -3,29 +3,35 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: goserve_example_api_server_mongo
+    container_name: goserver-mongo
     restart: unless-stopped
     env_file: .env
     ports:
       - '${SERVER_PORT}:8080'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     depends_on:
       - mongo
       - redis
+    networks:
+      - goserve-mongo-network
 
   mongo:
     image: mongo:8.0.9
     restart: unless-stopped
     env_file: .env
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DB_ADMIN}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_ADMIN_PWD}
-      - MONGO_INITDB_DATABASE=${DB_NAME}
     ports:
       - '${DB_PORT}:27017'
     command: mongod --bind_ip_all
     volumes:
       - ./.extra/setup/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - dbdata:/data/db
+    networks:
+      - goserve-mongo-network
 
   redis:
     image: redis:8.4.0
@@ -36,6 +42,12 @@ services:
     command: redis-server --bind localhost --bind 0.0.0.0 --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     volumes:
       - cache:/data/cache
+    networks:
+      - goserve-mongo-network
+
+networks:
+  goserve-mongo-network:
+    driver: bridge
 
 volumes:
   dbdata:
