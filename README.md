@@ -1,113 +1,90 @@
-# goserve - Go Backend Architecture
-
 [![Docker Compose CI](https://github.com/afteracademy/goserve-example-api-server-mongo/actions/workflows/docker_compose.yml/badge.svg)](https://github.com/afteracademy/goserve-example-api-server-mongo/actions/workflows/docker_compose.yml)
 [![Architechture](https://img.shields.io/badge/Framework-blue?label=View&logo=go)](https://github.com/afteracademy/goserve)
 [![Starter Project](https://img.shields.io/badge/Starter%20Project%20CLI-red?label=Get&logo=go)](https://github.com/afteracademy/goservegen)
 [![Download](https://img.shields.io/badge/Download-Starter%20Project%20Mongo%20Zip-green.svg)](https://github.com/afteracademy/goservegen/raw/main/starter-project-mongo.zip)
 
+<div align="center">
+
+# MongoDB API Server Example
+
+### Production-Ready Blog Service with GoServe Framework
+
 ![Banner](.extra/docs/goserve-banner.png)
 
-## Create A Blog Service 
+**A complete, production-ready REST API service built with GoServe framework, MongoDB, Redis, JWT authentication, and role-based authorization.**
 
-This project is a fully production-ready solution designed to implement best practices for building performant and secure backend REST API services. It provides a robust architectural framework to ensure consistency and maintain high code quality. The architecture emphasizes feature separation, facilitating easier unit and integration testing. It is built using the `goserve` framework, which offers essential components for developing REST API services in Go.
+[![Documentation](https://img.shields.io/badge/📚_Read_Documentation-goserve.afteracademy.com-blue?style=for-the-badge)](http://goserve.afteracademy.com/mongo)
 
-## Framework
-- Go
-- goserve v2
-- Gin
-- jwt
-- mongodriver
-- go-redis
-- Validator
-- Viper
-- Crypto
+---
+[![GoServe Framework](https://img.shields.io/badge/🚀_Framework-GoServe-blue?style=for-the-badge)](https://github.com/afteracademy/goserve)
+[![API Documentation](https://img.shields.io/badge/📚_API_Docs-View_Here-blue?style=for-the-badge)](https://documenter.getpostman.com/view/1552895/2sA3XWdefu)
+[![Download Starter](https://img.shields.io/badge/⬇️_Download-Starter_Project-green?style=for-the-badge)](https://github.com/afteracademy/goservegen/raw/main/starter-project-mongo.zip)
+---
+</div>
 
-**Highlights**
-- REST API design
-- goserve framework usage
-- API key support
-- Token based Authentication
-- Role based Authorization
-- Unit Tests
-- Integration Tests
-- Modular codebase
+## Overview
 
-## Architecture
-The goal is to make each API independent from one another and only share services among them. This will make code reusable and reduce conflicts while working in a team. 
+This project is a fully production-ready blog service demonstrating best practices for building performant and secure backend REST API services with MongoDB. It showcases the application of the [GoServe framework](https://github.com/afteracademy/goserve) with clean architecture, feature separation, comprehensive testing, and production grade security.
 
-The APIs will have separate directory based on the endpoint. Example `blog` and `blogs` will have seperate directory whereas `blog`, `blog/author`, and `blog/editor` will share common resources and will live inside same directory.
+## Features
 
-## Know More on goserve framework
-- [GitHub - afteracademy/goserve](https://github.com/afteracademy/goserve) 
+- **GoServe Framework** - Built on the production-ready [GoServe v2](https://github.com/afteracademy/goserve) framework
+- **Clean Architecture** - Well-structured, maintainable codebase with clear separation of concerns
+- **MongoDB Integration** - Full MongoDB support with query builder and document validation
+- **Redis Caching** - High-performance caching layer for frequently accessed data
+- **JWT Authentication** - Secure token-based authentication with refresh tokens
+- **Role-Based Authorization** - Fine-grained access control with role management
+- **API Key Support** - Additional security layer for API access control
+- **Request Validation** - Comprehensive input validation using validator v10
+- **Testing Suite** - Extensive unit and integration test coverage
+- **Docker Ready** - Complete Docker Compose setup for easy deployment
+- **Auto-Generated APIs** - CLI tool for scaffolding new API endpoints
+- **Type-Safe DTOs** - Structured data transfer objects for all requests/responses
 
-### Startup Flow
-cmd/main → startup/server → module, mongo, redis, router → api/[feature]/middlewares → api/[feature]/controller -> api/[feature]/service, authentication, authorization → handlers → sender
+## Technology Stack
 
-### API Structure
-```
-Sample API
-├── dto
-│   └── create_sample.go
-├── model
-│   └── sample.go
-├── controller.go
-└── service.go
-```
+- **Language**: Go 1.21+
+- **Framework**: [GoServe v2](https://github.com/afteracademy/goserve)
+- **Web Framework**: [Gin](https://github.com/gin-gonic/gin)
+- **Database**: MongoDB ([mongo-driver](https://github.com/mongodb/mongo-go-driver))
+- **Cache**: Redis ([go-redis](https://github.com/redis/go-redis))
+- **Authentication**: JWT tokens
+- **Validation**: [validator](https://github.com/go-playground/validator)
+- **Configuration**: [Viper](https://github.com/spf13/viper)
+- **Testing**: [Testify](https://github.com/stretchr/testify)
 
-- Each feature API lives under `api` directory
-- The request and response body is sent in the form of a DTO (Data Transfer Object) inside `dto` directory
-- The database collection model lives inside `model` directory
-- Controller is responsible for defining endpoints and corresponding handlers
-- Service is the main logic component and handles data. Controller interact with a service to process a request. A service can also interact with other services.
- 
-## Project Directories
-1. **api**: APIs code 
-3. **cmd**: main function to start the program
-4. **common**: code to be used in all the apis
-5. **config**: load environment variables
-6. **keys**: stores server pem files for token
-7. **startup**: creates server and initializes database, redis, and router
-8. **tests**: holds the integration tests
-9. **utils**: contains utility functions
+## Quick Start
 
-**Helper/Optional Directories**
-1. **.extra**: mongo script for initialization inside docker, other web assets and documents
-2. **.github**: CI for tests
-3. **.tools**: api code, RSA key generator, and .env copier
-4. **.vscode**: editor config and debug launch settings
+### Prerequisites
 
-## API Design
-![Request-Response-Design](.extra/docs/request-flow.svg)
+- Docker & Docker Compose ([Installation Guide](https://docs.docker.com/install/))
+- Go 1.21+ (for local development)
 
-### API DOC
-[![API Documentation](https://img.shields.io/badge/API%20Documentation-View%20Here-blue?style=for-the-badge)](https://documenter.getpostman.com/view/1552895/2sA3XWdefu)
+### Installation
 
-## Installation Instructions
-vscode is the recommended editor - dark theme 
-
-**1. Get the repo**
+**1. Clone the Repository**
 
 ```bash
 git clone https://github.com/afteracademy/goserve-example-api-server-mongo.git
+cd goserve-example-api-server-mongo
 ```
 
 **2. Generate RSA Keys**
-```
+```bash
 go run .tools/rsa/keygen.go
 ```
 
-**3. Create .env files**
-```
+**3. Create Environment Files**
+```bash
 go run .tools/copy/envs.go 
 ```
 
-**4. Run Docker Compose**
-- Install Docker and Docker Compose. [Find Instructions Here](https://docs.docker.com/install/).
-
+**4. Start with Docker Compose**
 ```bash
 docker compose up --build
 ```
--  You will be able to access the api from http://localhost:8080
+
+The API server will be available at: **http://localhost:8080**
 
 **5. Health Check**
 ```bash
@@ -119,47 +96,120 @@ docker inspect --format='{{.State.Health.Status}}' goserver-mongo
 docker exec -t goserver-mongo go test -v ./...
 ```
 
-If having any issue
-- Make sure 8080 port is not occupied else change SERVER_PORT in **.env** file.
-- Make sure 27017 port is not occupied else change DB_PORT in **.env** file.
-- Make sure 6379 port is not occupied else change REDIS_PORT in **.env** file.
+### Troubleshooting
 
-## Run on the local machine
+If you encounter issues:
+- Ensure port 8080 is available (change `SERVER_PORT` in `.env` if needed)
+- Ensure port 27017 is available (change `DB_PORT` in `.env` if needed)
+- Ensure port 6379 is available (change `REDIS_PORT` in `.env` if needed)
+
+## Local Development
+
+For local development without Docker:
+
 ```bash
 go mod tidy
 ```
 
-Keep the docker container for `mongo` and `redis` running and **stop** the `goserver-mongo` docker container
+Keep Docker containers for `mongo` and `redis` running, but stop the `goserver-mongo` container.
 
-Change the following hosts in the **.env** and **.test.env**
-- DB_HOST=localhost
-- REDIS_HOST=localhost
+Update the following in `.env` and `.test.env`:
+```env
+DB_HOST=localhost
+REDIS_HOST=localhost
+```
 
-Best way to run this project is to use the vscode `Run and Debug` button. Scripts are available for debugging and template generation on vscode.
-
-### Optional - Running the app from terminal
+**Run the application:**
 ```bash
 go run cmd/main.go
 ```
 
-## Template
-New api creation can be done using command. `go run .tools/apigen.go [feature_name]`. This will create all the required skeleton files inside the directory api/[feature_name]
+**Or use VS Code**: Use the `Run and Debug` panel for an enhanced development experience.
+
+## Architecture
+
+### Design Principles
+
+The architecture is designed to make each API independent while sharing services among them. This promotes:
+- **Code Reusability** - Shared services across multiple endpoints
+- **Team Collaboration** - Reduced conflicts when working in teams
+- **Feature Isolation** - Easier testing and maintenance
+
+### Request Flow
+
+![Request-Response-Design](.extra/docs/request-flow.svg)
+
+**Startup Flow:**  
+`cmd/main` → `startup/server` → `module, mongo, redis, router` → `api/[feature]/middlewares` → `api/[feature]/controller` → `api/[feature]/service` → `authentication, authorization` → `handlers` → `response`
+
+### API Structure
+
+```
+Sample API
+├── dto/
+│   └── create_sample.go     # Data Transfer Objects
+├── model/
+│   └── sample.go            # MongoDB Collection Model
+├── middleware/              # (Optional) Feature-specific middleware
+│   └── custom.go
+├── controller.go            # Route definitions & handlers
+└── service.go              # Business logic & data operations
+```
+
+**Key Components:**
+- **DTOs** - Request/response body definitions in `dto/` directory
+- **Models** - MongoDB collection schemas in `model/` directory
+- **Controller** - Defines endpoints and handles HTTP requests
+- **Service** - Contains business logic and data operations
+- **Middleware** - Authentication, authorization, and custom middleware
+
+### Project Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| **api/** | Feature-based API implementations |
+| **cmd/** | Application entry point (main.go) |
+| **common/** | Shared code across all APIs |
+| **config/** | Environment variable configuration |
+| **keys/** | RSA keys for JWT token signing |
+| **startup/** | Server initialization, DB, Redis, routing |
+| **tests/** | Integration test suites |
+| **utils/** | Utility functions |
+
+**Helper Directories:**
+- **.extra/** - MongoDB initialization scripts, assets, documentation
+- **.github/** - CI/CD workflows
+- **.tools/** - Code generators, key generation utilities
+- **.vscode/** - Editor configuration and debug settings
+
+## Generate New APIs
+
+Scaffold a new API endpoint with a single command:
 
 ```bash
 go run .tools/apigen.go sample
 ```
 
-## Read the Article to understand this project
-[How to Architect Good Go Backend REST API Services](https://afteracademy.com/article/how-to-architect-good-go-backend-rest-api-services)
+This creates the complete structure under `api/sample/` with:
+- Model definitions
+- DTO templates
+- Controller skeleton
+- Service interface
 
-## How to use this architecture in your project?
-You can use [goservegen](https://github.com/afteracademy/goservegen) CLI to generate starter project for this architecture. 
-> Check out the repo [github.com/afteracademy/goservegen](https://github.com/afteracademy/goservegen) for more information.
+## API Documentation
 
-## Documentation
-Information about the project architecture and code snippets for creating new APIs using this architecture.
+<div align="center">
+
+[![API Documentation](https://img.shields.io/badge/📚_View_Full_API_Documentation-blue?style=for-the-badge)](https://documenter.getpostman.com/view/1552895/2sA3XWdefu)
+
+Complete API documentation with request/response examples and authentication details
+
+</div>
+
+## Code Examples
 
 ### Model
+
 `api/sample/model/sample.go`
 
 ```go
@@ -199,6 +249,7 @@ func NewSample(field string) (*Sample, error) {
   }
   return &doc, nil
 }
+}
 
 func (doc *Sample) GetValue() *Sample {
   return doc
@@ -223,8 +274,7 @@ func (*Sample) EnsureIndexes(db mongo.Database) {
 }
 ```
 
-#### Notes: The Model implements the interface 
-`github.com/afteracademy/goserve/v2/mongo/database`
+**Model Interface:** Implements `github.com/afteracademy/goserve/v2/mongo/database.Document[T]`
 
 ```golang
 type Document[T any] interface {
@@ -235,6 +285,7 @@ type Document[T any] interface {
 ``` 
 
 ### DTO
+
 `api/sample/dto/create_sample.go`
 
 ```go
@@ -254,6 +305,7 @@ type InfoSample struct {
 ```
 
 ### Service
+
 `api/sample/service.go`
 
 ```go
@@ -296,10 +348,12 @@ func (s *service) FindSample(id primitive.ObjectID) (*model.Sample, error) {
 }
 ```
 
-- Database Query: `mongo.QueryBuilder[model.Sample]` provide the methods to make common mongo queries for the model `model.Sample`
-- Redis Cache: `redis.Cache[dto.InfoSample]` provide the methods to make common redis queries for the DTO `dto.InfoSample`
+**Key Features:**
+- **Database Query:** `mongo.QueryBuilder[model.Sample]` provides type-safe MongoDB operations
+- **Redis Cache:** `redis.Cache[dto.InfoSample]` provides type-safe caching operations
 
 ### Controller
+
 `api/sample/controller.go`
 
 ```go
@@ -359,8 +413,7 @@ func (c *controller) getSampleHandler(ctx *gin.Context) {
 }
 ```
 
-#### Notes: The Controller implements the interface 
-`github.com/afteracademy/goserve/v2/network/interfaces.go`
+**Controller Interface:** Implements `github.com/afteracademy/goserve/v2/network.Controller`
 
 ```golang
 type Controller interface {
@@ -376,7 +429,8 @@ type BaseController interface {
 }
 ``` 
 
-### Enable Controller In Module
+### Register Controller
+
 `startup/module.go`
 
 ```go
@@ -395,7 +449,8 @@ func (m *module) Controllers() []network.Controller {
 }
 ```
 
-### Indexing (If Needed)
+### Setup Indexes
+
 `startup/indexes.go`
 
 ```go
@@ -410,18 +465,74 @@ func EnsureDbIndexes(db mongo.Database) {
 }
 ```
 
-## Go Microservices Architecture using goserve
-`goserve` also provides `micro` package to build REST API microservices. Find the microservices version of this blog service project at [github.com/afteracademy/gomicro](https://github.com/afteracademy/gomicro)
+## Related Projects
 
-[Article - How to Create Microservices — A Practical Guide Using Go](https://afteracademy.com/article/how-to-create-microservices-a-practical-guide-using-go)
+Explore other GoServe example implementations:
 
-## Find this project useful ? :heart:
-* Support it by clicking the :star: button on the upper right of this page. :v:
+1. **[GoServe Framework](https://github.com/afteracademy/goserve)**  
+   Core framework with PostgreSQL, MongoDB, Redis, and NATS support
 
-## More on YouTube channel - AfterAcademy
-Subscribe to the YouTube channel `AfterAcademy` for understanding the concepts used in this project:
+2. **[PostgreSQL API Server](https://github.com/afteracademy/goserve-example-api-server-postgres)**  
+   Complete REST API with PostgreSQL and clean architecture
+
+3. **[Microservices Example](https://github.com/afteracademy/gomicro)**  
+   NATS-based microservices communication patterns
+
+## Generate Starter Project
+
+Use the [GoServeGen](https://github.com/afteracademy/goservegen) CLI to generate a starter project:
+
+```bash
+# Install GoServeGen CLI
+go install github.com/afteracademy/goservegen@latest
+
+# Generate a new project
+goservegen create my-project --db=mongo
+```
+
+Or download the starter project directly:
+- [MongoDB Starter Project (ZIP)](https://github.com/afteracademy/goservegen/raw/main/starter-project-mongo.zip)
+
+## Articles & Tutorials
+
+- [How to Architect Good Go Backend REST API Services](https://afteracademy.com/article/how-to-architect-good-go-backend-rest-api-services)
+- [How to Create Microservices — A Practical Guide Using Go](https://afteracademy.com/article/how-to-create-microservices-a-practical-guide-using-go)
+- [Implement JSON Web Token (JWT) Authentication using AccessToken and RefreshToken](https://afteracademy.com/article/implement-json-web-token-jwt-authentication-using-access-token-and-refresh-token)
+
+## Contributing
+
+We welcome contributions! Please feel free to:
+
+- **Fork** the repository
+- **Open** issues for bugs or feature requests
+- **Submit** pull requests with improvements
+- **Share** your feedback and suggestions
+
+## Learn More
+
+Subscribe to **AfterAcademy** on YouTube for in-depth tutorials and concept explanations:
 
 [![YouTube](https://img.shields.io/badge/YouTube-Subscribe-red?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@afteracad)
 
-## Contribution
-Please feel free to fork it and open a PR.
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## Support This Project
+
+If you find this project useful, please consider:
+
+- **Starring** ⭐ this repository
+- **Sharing** with the community
+- **Contributing** improvements
+- **Reporting** bugs and issues
+
+---
+
+<div align="center">
+
+**Built with love by [AfterAcademy](https://github.com/afteracademy)**
+
+[GoServe Framework](https://github.com/afteracademy/goserve) • [API Documentation](https://documenter.getpostman.com/view/1552895/2sA3XWdefu) • [Articles](https://afteracademy.com) • [YouTube](https://www.youtube.com/@afteracad)
+
+</div>
